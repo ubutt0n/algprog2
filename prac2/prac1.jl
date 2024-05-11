@@ -182,7 +182,8 @@ Base. log10(x::Dual{T}) where T = Dual{T}(log10(x.a), x.b*(1/(x.a*log(10))))
 Base. log(a::AbstractFloat, x::Dual{T}) where T = Dual{T}(log(a, x.a), x.b*(1/(x.a*log(a))))
 Base. sqrt(x::Dual{T}) where T = Dual{T}(sqrt(x.a), x.b*(1/(2*sqrt(x.a))))
 valdiff(f::Function, x) = begin
-    return f(Dual{AbstractFloat}(x, 1))
+    a = f(Dual{AbstractFloat}(x, 1))
+    return [real(a), imag(a)]
 end
 valdiff(p::Polynomial, x, ::Type{Dual}) = begin
     return valdiff(x -> p(x), x)
